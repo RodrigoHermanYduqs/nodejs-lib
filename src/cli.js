@@ -6,17 +6,20 @@ import listaValidada from './http-validacao.js';
 const caminho = process.argv;
 
 async function imprimeLista(valida, json, resultado, identificador = '') {
-
   if (valida && !json) {
     console.log(
       chalk.yellow('lista validada'),
       chalk.black.bgGreen(identificador),
       await listaValidada(resultado.links),
-      chalk.yellow("total de links: " + resultado.total_links)
-    );    
-  } if (valida && json) {
+      //imprimeColorido(await listaValidada(resultado.links)),
+      chalk.yellow("total de links: " + resultado.total_links)   
+    );
+  } else if (valida && json) {
     console.log(
-      JSON.stringify(await listaValidada(resultado.links))
+      chalk.yellow('lista validada'),
+      chalk.black.bgGreen(identificador),
+      JSON.stringify(await listaValidada(resultado.links), null, 2),
+      chalk.yellow("total de links: " + resultado.total_links)
     )
   }
   else {
@@ -27,6 +30,23 @@ async function imprimeLista(valida, json, resultado, identificador = '') {
   }
       
 }
+
+function imprimeColorido(objetos){
+      const objetosFormatados = objetos.map(objeto => {
+          const novoObjeto = {};
+          for (const chave in objeto) {
+            const valor = objeto[chave];
+            if (typeof valor === 'number') {
+              novoObjeto[chave] = chalk.yellow(valor);
+            } else {
+              novoObjeto[chave] = chalk.red(valor);
+            }
+          }
+          return novoObjeto;
+        });
+    return objetosFormatados;
+}
+
 
 
 async function processaTexto(argumentos) {
