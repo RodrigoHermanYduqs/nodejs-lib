@@ -1,17 +1,26 @@
 import chalk from "chalk";
 
+var cache = {};
+
 function extraiLinks (arrLinks) {
   return arrLinks.map((objetoLink) => Object.values(objetoLink).join())
 }
 
 async function checaStatus (listaURLs) {
+
   const arrStatus = await Promise
   .all(
     listaURLs.map(async (url) => {
+      if (cache[url])
+      {
+        return cache[url]; // retorna a url do cache
+      } 
       try {
-        const response = await fetch(url)
+        const response = await fetch(url);
+        cache[url] = response.status;
         return response.status;
       } catch (erro) {
+        cache[url] = manejaErros(erro);
         return manejaErros(erro);
       }
     })

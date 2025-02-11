@@ -6,9 +6,10 @@ import listaValidada from './http-validacao.js';
 const caminho = process.argv;
 
 async function imprimeLista(valida, json, resultado, identificador = '') {
+    console.clear();
   if (valida && !json) {
     console.log(
-      chalk.yellow('lista validada'),
+      chalk.yellow('lista validada (valida e !json) '),
       chalk.black.bgGreen(identificador),
       await listaValidada(resultado.links),
       //imprimeColorido(await listaValidada(resultado.links)),
@@ -16,7 +17,7 @@ async function imprimeLista(valida, json, resultado, identificador = '') {
     );
   } else if (valida && json) {
     console.log(
-      chalk.yellow('lista validada'),
+      chalk.yellow('lista validada (valida e json) '),
       chalk.black.bgGreen(identificador),
       JSON.stringify(await listaValidada(resultado.links), null, 2),
       chalk.yellow("total de links: " + resultado.total_links)
@@ -24,7 +25,7 @@ async function imprimeLista(valida, json, resultado, identificador = '') {
   }
   else {
     console.log(
-      chalk.yellow('lista de links'),
+      chalk.yellow('lista de links (else)'),
       chalk.black.bgGreen(identificador.links),
       resultado);
   }
