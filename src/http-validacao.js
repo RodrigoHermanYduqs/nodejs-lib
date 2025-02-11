@@ -22,6 +22,12 @@ async function checaStatus (listaURLs) {
 function manejaErros (erro) {
   if (erro.cause.code === 'ENOTFOUND') {
     return 'link não encontrado';
+  }
+  else if (erro.cause.code === 'ECONNREFUSED'){
+    return 'falha ao comunicar com o servidor';
+  }
+  else if (erro.cause.code === 'ETIMEDOUT'){ 
+    return 'timeout - servidor demorou para responder';
   } else {
     return 'ocorreu algum erro';
   }
